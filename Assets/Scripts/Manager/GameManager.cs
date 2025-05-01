@@ -56,6 +56,10 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (PlayerPrefs.GetInt("MaxWave") < currentWaveIndex)
+        {
+            PlayerPrefs.SetInt("MaxWave", currentWaveIndex);
+        }
         enemyManager.StopWave();
     }
 }

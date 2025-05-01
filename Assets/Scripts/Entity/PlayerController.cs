@@ -4,11 +4,13 @@ public class PlayerController : BaseController
 {
     private GameManager gameManager;
     private Camera camera;
+    
 
 
     protected override void Awake()
     {
         base.Awake();
+        
         if (camera == null)
         {
             camera = Camera.main;            
@@ -17,8 +19,12 @@ public class PlayerController : BaseController
 
     public void Init(GameManager gameManager)
     {
-        this.gameManager = gameManager;
-        // camera = Camera.main;
+        Debug.Log("playerInit시점"+isInMainGame);
+        if (isInMainGame)
+        {
+            this.gameManager = gameManager;    
+        }
+        
     }
     
 
@@ -27,21 +33,24 @@ public class PlayerController : BaseController
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         movementDirection = new Vector2(horizontal, vertical).normalized;
-
-        Vector2 mousePosition = Input.mousePosition;
-        Vector2 worldPos = camera.ScreenToWorldPoint(mousePosition);
-        lookDirection = (worldPos - (Vector2)transform.position);
-
-        if (lookDirection.magnitude < .9f)
+        Debug.Log("HandleAction시점"+isInMainGame);
+        if (isInMainGame)
         {
-            lookDirection = Vector2.zero;
-        }
-        else
-        {
-            lookDirection = lookDirection.normalized;
-        }
+            Vector2 mousePosition = Input.mousePosition;
+            Vector2 worldPos = camera.ScreenToWorldPoint(mousePosition);
+            lookDirection = (worldPos - (Vector2)transform.position);
+
+            if (lookDirection.magnitude < .9f)
+            {
+                lookDirection = Vector2.zero;
+            }
+            else
+            {
+                lookDirection = lookDirection.normalized;
+            }
         
-        isAttacking = Input.GetMouseButton(0);
+            isAttacking = Input.GetMouseButton(0);    
+        }
     }
     
     public override void Death()

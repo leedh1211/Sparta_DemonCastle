@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 public class BaseController : MonoBehaviour
@@ -20,6 +21,9 @@ public class BaseController : MonoBehaviour
     
     protected bool isAttacking;
     private float timeSinceLastAttack = float.MaxValue;
+    protected bool isInMainGame = false;
+    protected int MaxWave;
+    protected int MaxStack; 
 
     
     protected AnimationHandler animationHandler;
@@ -28,15 +32,20 @@ public class BaseController : MonoBehaviour
 
     protected virtual void Awake()
     {
+        MaxWave = PlayerPrefs.GetInt("MaxWave", 0);
+        MaxStack = PlayerPrefs.GetInt("MaxStack", 0);
+        isInMainGame = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainGameScene";
         _rigidbody = GetComponent<Rigidbody2D>();
         animationHandler = GetComponentInChildren<AnimationHandler>();
-        statHandler = GetComponent<statHandler>();
-        
-        if(WeaponPrefab != null)
-            weaponHandler = Instantiate(WeaponPrefab, weaponPivot);
-        else
-            weaponHandler = GetComponentInChildren<WeaponHandler>();
-        
+        Debug.Log("Awake시점"+isInMainGame);
+        if (isInMainGame)
+        {
+            statHandler = GetComponent<statHandler>();
+            if(WeaponPrefab != null)
+                weaponHandler = Instantiate(WeaponPrefab, weaponPivot);
+            else
+                weaponHandler = GetComponentInChildren<WeaponHandler>();    
+        }
     }
 
     // Start is called before the first frame update
@@ -48,6 +57,11 @@ public class BaseController : MonoBehaviour
     // Update is called once per frame
     protected virtual void Update()
     {
+        if (DialogueUI.Instance != null && DialogueUI.Instance.IsDialogueActive())
+        {
+            movementDirection = Vector2.zero;
+            return;
+        }
         HandleAction();
         Rotate(lookDirection);
         HandleAttackDelay();
@@ -161,6 +175,24 @@ public class BaseController : MonoBehaviour
         }
 
         Destroy(gameObject, 2f);
+    }
+    
+    protected void UpdateMaxWave(int currentWave)
+    {
+        if (currentWave > MaxWave)
+        {
+            PlayerPrefs.SetInt("MaxWave", currentWave);
+            PlayerPrefs.Save();
+        }
+    }
+
+    protected void UpdateMaxStack(int currentStack)
+    {
+        if (currentStack > MaxStack)
+        {
+            PlayerPrefs.SetInt("MaxStack", currentStack);
+            PlayerPrefs.Save();
+        }
     }
     
 }

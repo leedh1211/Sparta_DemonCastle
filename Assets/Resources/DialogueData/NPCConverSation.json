@@ -1,0 +1,153 @@
+{
+  "items": [
+    {
+      "npcName": "Blacksmith",
+      "dialogues": [
+        {
+          "key": "Intro",
+          "value": {
+            "text": "어서 오세요, 대장장이입니다.",
+            "category": "Intro",
+            "options": [
+              { "text": "강화한다", "category": "Conversation" },
+              { "text": "그만둔다", "category": "End" }
+            ]
+          }
+        },
+        {
+          "key": "Conversation1",
+          "value": {
+            "text": "어떤 강화를 원하십니까?",
+            "category": "Conversation",
+            "options": [
+              { "text": "공격속도 증가", "category": "Conversation" },
+              { "text": "발사체 개수 증가", "category": "Conversation" },
+              { "text": "공격력 강화", "category": "Conversation" },
+              { "text": "그만둔다", "category": "End" }
+            ]
+          }
+        },
+        {
+          "key": "End",
+          "value": {
+            "text": "다음에 또 오세요.",
+            "category": "End",
+            "options": [
+              { "text": "나가기", "category": "End" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "npcName": "Constructor",
+      "dialogues": [
+        {
+          "key": "Intro",
+          "value": {
+            "text": "외성을 강화하러 떠나시겠습니까?",
+            "category": "Intro",
+            "options": [
+              { "text": "예", "category": "Conversation" },
+              { "text": "그만둔다", "category": "End" }
+            ]
+          }
+        },
+        {
+          "key": "End",
+          "value": {
+            "text": "다음에 또 뵙겠습니다.",
+            "category": "End",
+            "options": [
+              { "text": "나가기", "category": "End" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "npcName": "CastleEntrance",
+      "dialogues": [
+        {
+          "key": "Intro",
+          "value": {
+            "text": "외성 입구입니다. 웨이브 전투 지역으로 이동하시겠습니까?",
+            "category": "Intro",
+            "options": [
+              { "text": "이동한다", "category": "Conversation" },
+              { "text": "그만둔다", "category": "End" }
+            ]
+          }
+        },
+        {
+          "key": "Conversation1",
+          "value": {
+            "text": "준비가 되셨습니까?",
+            "category": "Conversation",
+            "options": [
+              { "text": "예", "category": "Conversation" },
+              { "text": "아니요", "category": "End" }
+            ]
+          }
+        },
+        {
+          "key": "End",
+          "value": {
+            "text": "좋아요, 준비가 되면 말씀해주세요.",
+            "category": "End",
+            "options": [
+              { "text": "나가기", "category": "End" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "npcName": "RecordNpc",
+      "dialogues": [
+        {
+          "key": "Intro",
+          "value": {
+            "text": "어떤 기록을 확인하시겠습니까?",
+            "category": "Intro",
+            "options": [
+              { "text": "Wave 기록 확인", "category": "Conversation" },
+              { "text": "Stack 기록 확인", "category": "Conversation" },
+              { "text": "그만둔다", "category": "End" }
+            ]
+          }
+        },
+        {
+          "key": "Conversation1",
+          "value": {
+            "text": "Wave 최고 기록: {MaxWave} 웨이브",
+            "category": "Conversation",
+            "options": [
+              { "text": "돌아가기", "category": "Intro" }
+            ]
+          }
+        },
+        {
+          "key": "Conversation2",
+          "value": {
+            "text": "Stack 최고 기록: {MaxStack} 층",
+            "category": "Conversation",
+            "options": [
+              { "text": "돌아가기", "category": "Intro" }
+            ]
+          }
+        },
+        {
+          "key": "End",
+          "value": {
+            "text": "기록 확인을 종료합니다.",
+            "category": "End",
+            "options": [
+              { "text": "나가기", "category": "End" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
