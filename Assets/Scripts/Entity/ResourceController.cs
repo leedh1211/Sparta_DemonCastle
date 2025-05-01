@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ResourceController : MonoBehaviour
@@ -5,26 +6,25 @@ public class ResourceController : MonoBehaviour
     [SerializeField] private float healthChangeDelay = .5f;
 
     private BaseController baseController;
-    private PlayerStatHandler playerStatHandler;
-    private CastleStatHandler castleStatHandler;
+    private statHandler statHandler;
     private AnimationHandler animationHandler;
+    private Action<float, float> OnChangeHealth;
 
     private float timeSinceLastChange = float.MaxValue;
 
     public float CurrentHealth { get; private set; }
-    public float MaxHealth => castleStatHandler.Health;
+    public float MaxHealth => statHandler.Health;
 
-    private void Awake()
+    protected virtual void Awake()
     {
-        playerStatHandler = GetComponent<PlayerStatHandler>();
-        castleStatHandler = GetComponent<CastleStatHandler>();
-        animationHandler = GetComponent<AnimationHandler>();
+        statHandler = GetComponent<statHandler>();
+        animationHandler = GetComponentInChildren<AnimationHandler>();
         baseController = GetComponent<BaseController>();
     }
 
-    private void Start()
+    protected virtual void Start()
     {
-        CurrentHealth = castleStatHandler.Health;
+        CurrentHealth = statHandler.Health;
     }
 
     private void Update()
@@ -50,11 +50,12 @@ public class ResourceController : MonoBehaviour
         CurrentHealth += change;
         CurrentHealth = CurrentHealth > MaxHealth ? MaxHealth : CurrentHealth;
         CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
+        
+        OnChangeHealth?.Invoke(CurrentHealth, MaxHealth);
 
         if (change < 0)
         {
             animationHandler.Damage();
-
         }
 
         if (CurrentHealth <= 0f)
@@ -67,6 +68,16 @@ public class ResourceController : MonoBehaviour
 
     private void Death()
     {
+        baseController.Death();
+    }
+    
+    public void AddHealthChangeEvent(Action<float, float> action)
+    {
+        OnChangeHealth += action;
+    }
 
+    public void RemoveHealthChangeEvent(Action<float, float> action)
+    {
+        OnChangeHealth -= action;
     }
 }

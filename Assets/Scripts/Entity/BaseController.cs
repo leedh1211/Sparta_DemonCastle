@@ -23,16 +23,14 @@ public class BaseController : MonoBehaviour
 
     
     protected AnimationHandler animationHandler;
-    protected PlayerStatHandler playerStatHandler;
-    protected CastleStatHandler castleStatHandler;
+    protected statHandler statHandler;
     protected WeaponHandler weaponHandler;
 
     protected virtual void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         animationHandler = GetComponentInChildren<AnimationHandler>();
-        playerStatHandler = GetComponent<PlayerStatHandler>();
-        castleStatHandler = GetComponent<CastleStatHandler>();
+        statHandler = GetComponent<statHandler>();
         
         if(WeaponPrefab != null)
             weaponHandler = Instantiate(WeaponPrefab, weaponPivot);
@@ -145,4 +143,24 @@ public class BaseController : MonoBehaviour
         if(lookDirection != Vector2.zero)
             weaponHandler?.Attack();
     }
+    
+    public virtual void Death()
+    {
+        _rigidbody.velocity = Vector3.zero;
+
+        foreach (SpriteRenderer renderer in transform.GetComponentsInChildren<SpriteRenderer>())
+        {
+            Color color = renderer.color;
+            color.a = 0.3f;
+            renderer.color = color;
+        }
+
+        foreach (Behaviour component in transform.GetComponentsInChildren<Behaviour>())
+        {
+            component.enabled = false;
+        }
+
+        Destroy(gameObject, 2f);
+    }
+    
 }

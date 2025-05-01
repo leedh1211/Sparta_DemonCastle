@@ -6,6 +6,10 @@ public class EnemyController : BaseController
     private Transform target;
     
     [SerializeField] private float followRange = 15f;
+
+    private float targetUpdateTimer = 0;
+    private float targetUpdateCooldown = 1f;
+    
     
     public void Init(EnemyManager enemyManager, Transform target)
     {
@@ -15,12 +19,19 @@ public class EnemyController : BaseController
 
     protected float DistanceToTarget()
     {
-        return Vector3.Distance(transform.position, target.position);
+        return Vector2.Distance(transform.position, target.position);
     }
 
     protected override void HandleAction()
     {
         base.HandleAction();
+
+        targetUpdateTimer -= Time.deltaTime;
+        if (targetUpdateTimer <= 0f)
+        {
+            UpdateTarget();
+            targetUpdateTimer = targetUpdateCooldown;
+        }
 
         if (weaponHandler == null || target == null)
         {
@@ -60,5 +71,40 @@ public class EnemyController : BaseController
     {
         return (target.position - transform.position).normalized;
     }
+    protected void UpdateTarget()
+    {
+        
+        Vector2 center = transform.position;
+        float radius = weaponHandler.AttackRange;
+        LayerMask playerMask = LayerMask.GetMask("Player");
+        
+        Collider2D[] playerList = Physics2D.OverlapCircleAll(center, radius, playerMask);
+            
+        float closestDistance = Mathf.Infinity;
+        Collider2D closestPlayer = null;
+
+        foreach (var targetObj in playerList)
+        {
+            float targetDistance = Vector2.Distance(transform.position, targetObj.transform.position);
+            if (targetDistance < closestDistance)
+            {
+                closestDistance = targetDistance;
+                closestPlayer = targetObj;
+            }
+        }
+
+        if (closestPlayer != null)
+        {
+            target = closestPlayer.gameObject.transform;    
+        }
+    }
     
+    public override void Death()
+    {
+        base.Death();
+        if (enemyManager != null)
+        {
+            enemyManager.RemoveEnemyOnDeath(this);
+        }
+    }
 }
