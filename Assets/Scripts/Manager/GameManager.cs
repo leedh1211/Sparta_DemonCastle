@@ -7,7 +7,6 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
 
     public PlayerController player { get; private set; }
-    private ResourceController _playerResourceController;
     
     [SerializeField] private int currentWaveIndex = 0;
 
@@ -21,7 +20,6 @@ public class GameManager : MonoBehaviour
         
         uiManager = FindObjectOfType<UIManager>();
         
-        _playerResourceController = player.GetComponent<ResourceController>();
         enemyManager = GetComponentInChildren<EnemyManager>();
         enemyManager.Init(this);
     }
@@ -48,7 +46,7 @@ public class GameManager : MonoBehaviour
     {
         currentWaveIndex += 1;
         uiManager.ChangeWave(currentWaveIndex);
-        enemyManager.StartWave(1 + currentWaveIndex / 5);
+        enemyManager.StartWave(1 + currentWaveIndex / 2);
     }
 
     public void EndOfWave()
@@ -58,15 +56,6 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        Debug.Log("Game Over");
         enemyManager.StopWave();
-    }
-    
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            StartGame();
-        }
     }
 }
