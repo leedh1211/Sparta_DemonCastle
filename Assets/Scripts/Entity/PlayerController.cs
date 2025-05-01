@@ -33,7 +33,6 @@ public class PlayerController : BaseController
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         movementDirection = new Vector2(horizontal, vertical).normalized;
-        Debug.Log("HandleAction시점"+isInMainGame);
         if (isInMainGame)
         {
             Vector2 mousePosition = Input.mousePosition;

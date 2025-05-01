@@ -12,8 +12,9 @@ namespace Manager.DialogueFlow
             new Dictionary<string, Func<NpcDialogueData, DialogueFlow>>()
             {
                 { "Blacksmith", data => new BlacksmithDialogueFlow(data) },
-                { "Architect", data => new DefaultDialogueFlow(data) },
-                { "Gatekeeper", data => new DefaultDialogueFlow(data) }
+                { "Constructor", data => new DefaultDialogueFlow(data) },
+                { "CastleEntrance", data => new CastleEntranceDialogueFlow(data) },
+                { "RecordNpc", data => new RecordNpcDialogueFlow(data) }
             };
 
         public static DialogueFlow GetFlow(string npcName, NpcDialogueData data)

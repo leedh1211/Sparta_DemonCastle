@@ -52,7 +52,8 @@ public class ProjectileController : MonoBehaviour
             ResourceController resourceController = collision.GetComponent<ResourceController>();
             if(resourceController != null)
             {
-                resourceController.ChangeHealth(-rangeWeaponHandler.Power);
+                float Damage = rangeWeaponHandler.Power + PlayerPrefs.GetInt("Power", 0);
+                resourceController.ChangeHealth(-Damage);
                 if(rangeWeaponHandler.IsOnKnockback)
                 {
                     BaseController controller = collision.GetComponent<BaseController>();

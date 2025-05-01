@@ -70,6 +70,18 @@ public class DialogueManager : MonoBehaviour
         else
             EndDialogue();
     }
+    
+    public void ContinueDialogue(int key)
+    {
+        currentDialogueIndex = key;
+        string nextKey = "Conversation" + currentDialogueIndex;
+        var entry = currentNPC.dialogues.Find(d => d.key == nextKey)?.value;
+
+        if (entry != null)
+            DialogueUI.Instance.ShowDialogue(currentNPC.npcName, entry);
+        else
+            EndDialogue();
+    }
 
     public void EndDialogue()
     {

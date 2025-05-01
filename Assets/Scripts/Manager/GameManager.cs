@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        currentWaveIndex = 1;
+        uiManager.ChangeWave(currentWaveIndex);
         uiManager.SetPlayGame();
         StartNextWave();
     }
@@ -61,5 +63,6 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.SetInt("MaxWave", currentWaveIndex);
         }
         enemyManager.StopWave();
+        uiManager.SetGameOver();
     }
 }

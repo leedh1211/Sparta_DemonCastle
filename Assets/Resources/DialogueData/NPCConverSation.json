@@ -28,6 +28,16 @@
           }
         },
         {
+          "key": "Conversation2",
+          "value": {
+            "text": "최대강화입니다.",
+            "category": "Conversation",
+            "options": [
+              { "text": "나가기", "category": "End" }
+            ]
+          }
+        },
+        {
           "key": "End",
           "value": {
             "text": "다음에 또 오세요.",
@@ -76,17 +86,6 @@
             "options": [
               { "text": "이동한다", "category": "Conversation" },
               { "text": "그만둔다", "category": "End" }
-            ]
-          }
-        },
-        {
-          "key": "Conversation1",
-          "value": {
-            "text": "준비가 되셨습니까?",
-            "category": "Conversation",
-            "options": [
-              { "text": "예", "category": "Conversation" },
-              { "text": "아니요", "category": "End" }
             ]
           }
         },

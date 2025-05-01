@@ -23,7 +23,10 @@ public class BaseController : MonoBehaviour
     private float timeSinceLastAttack = float.MaxValue;
     protected bool isInMainGame = false;
     protected int MaxWave;
-    protected int MaxStack; 
+    protected int MaxStack;
+    protected int ProjectileCount;
+    protected int AttackSpeed;
+    protected int Power;
 
     
     protected AnimationHandler animationHandler;
@@ -34,10 +37,12 @@ public class BaseController : MonoBehaviour
     {
         MaxWave = PlayerPrefs.GetInt("MaxWave", 0);
         MaxStack = PlayerPrefs.GetInt("MaxStack", 0);
+        ProjectileCount = PlayerPrefs.GetInt("ProjectileCount", 0);
+        AttackSpeed = PlayerPrefs.GetInt("AttackSpeed", 0);
+        Power = PlayerPrefs.GetInt("Power", 0);
         isInMainGame = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "MainGameScene";
         _rigidbody = GetComponent<Rigidbody2D>();
         animationHandler = GetComponentInChildren<AnimationHandler>();
-        Debug.Log("Awake시점"+isInMainGame);
         if (isInMainGame)
         {
             statHandler = GetComponent<statHandler>();
@@ -69,9 +74,6 @@ public class BaseController : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        if (_rigidbody == null)
-            Debug.LogError($"{gameObject.name}의 _rigidbody가 FixedUpdate 시점에 null입니다!");
-
         Movment(movementDirection);
         if(knockbackDuration > 0.0f)
         {
@@ -94,11 +96,6 @@ public class BaseController : MonoBehaviour
         {
             direction *= 0.2f;
             direction += knockback;
-        }
-
-        if (_rigidbody == null)
-        {
-            Debug.LogError($"{gameObject.name} : Rigidbody2D가 null입니다. (Movment 시점)");
         }
 
         _rigidbody.velocity = direction;
@@ -140,12 +137,18 @@ public class BaseController : MonoBehaviour
         if (weaponHandler == null)
             return;
 
-        if(timeSinceLastAttack <= weaponHandler.Delay)
+        float attackSpeed = PlayerPrefs.GetFloat("AttackSpeed", 1f); // 기본값 1
+
+        float speedMultiplier = 1f + (attackSpeed - 1f) * 0.2f; // (0.2f는 보정값)
+
+        float actualDelay = weaponHandler.Delay / speedMultiplier;
+
+        if (timeSinceLastAttack <= actualDelay)
         {
             timeSinceLastAttack += Time.deltaTime;
         }
-    
-        if(isAttacking && timeSinceLastAttack > weaponHandler.Delay)
+
+        if (isAttacking && timeSinceLastAttack > actualDelay)
         {
             timeSinceLastAttack = 0;
             Attack();
