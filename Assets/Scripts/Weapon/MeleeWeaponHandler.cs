@@ -14,7 +14,6 @@ public class MeleeWeaponHandler : WeaponHandler
     public override void Attack()
     {
         base.Attack();
-        Debug.Log("A");
         
         RaycastHit2D hit =  Physics2D.BoxCast(transform.position + (Vector3)Controller.LookDirection * collideBoxSize.x, collideBoxSize, 0, Vector2.zero, 0, target);
         

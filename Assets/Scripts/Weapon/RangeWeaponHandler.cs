@@ -36,12 +36,11 @@ public class RangeWeaponHandler : WeaponHandler
         base.Attack();
         
         float projectilesAngleSpace = multipleProjectilesAngle;
-        int numberOfProjectilesPerShot = numberofProjectilesPerShot+PlayerPrefs.GetInt("ProjectileCount", 0);
 
-        float minAngle = -(numberOfProjectilesPerShot / 2f) * projectilesAngleSpace;
+        float minAngle = -(NumberofProjectilesPerShot / 2f) * projectilesAngleSpace;
 
 
-        for (int i = 0; i < numberOfProjectilesPerShot; i++)
+        for (int i = 0; i < NumberofProjectilesPerShot; i++)
         {
             float angle = minAngle + projectilesAngleSpace * i;
             float randomSpread = Random.Range(-spread, spread);
@@ -54,6 +53,11 @@ public class RangeWeaponHandler : WeaponHandler
     {
         base.Start();
         projectileManager = ProjectileManager.Instance;
+        if (gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
+        {
+            numberofProjectilesPerShot += PlayerPrefs.GetInt("ProjectileCount", 0);
+            multipleProjectilesAngle += PlayerPrefs.GetInt("ProjectileCount", 0)/2;
+        }
     }
     
     private void CreateProjectile(Vector2 _lookDirection, float angle)

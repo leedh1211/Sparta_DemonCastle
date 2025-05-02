@@ -1,5 +1,6 @@
 using Dialogue;
 using UI;
+using UnityEngine;
 
 namespace Manager.DialogueFlow
 {
@@ -17,6 +18,10 @@ namespace Manager.DialogueFlow
             {
                 DialogueManager.Instance.ContinueDialogue(2);
                 
+            }else if (option == "게임초기화")
+            {
+                PlayerPrefs.DeleteAll();
+                DialogueManager.Instance.EndDialogue();
             }
             else
             {

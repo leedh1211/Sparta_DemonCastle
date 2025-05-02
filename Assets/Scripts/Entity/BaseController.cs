@@ -137,18 +137,12 @@ public class BaseController : MonoBehaviour
         if (weaponHandler == null)
             return;
 
-        float attackSpeed = PlayerPrefs.GetFloat("AttackSpeed", 1f); // 기본값 1
-
-        float speedMultiplier = 1f + (attackSpeed - 1f) * 0.2f; // (0.2f는 보정값)
-
-        float actualDelay = weaponHandler.Delay / speedMultiplier;
-
-        if (timeSinceLastAttack <= actualDelay)
+        if(timeSinceLastAttack <= weaponHandler.Delay)
         {
             timeSinceLastAttack += Time.deltaTime;
         }
-
-        if (isAttacking && timeSinceLastAttack > actualDelay)
+    
+        if(isAttacking && timeSinceLastAttack > weaponHandler.Delay)
         {
             timeSinceLastAttack = 0;
             Attack();

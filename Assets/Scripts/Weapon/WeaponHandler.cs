@@ -51,7 +51,13 @@ public class WeaponHandler : MonoBehaviour
 
     protected virtual void Start()
     {
-        
+        if (gameObject.layer == LayerMask.NameToLayer("PlayerWeapon"))
+        {
+            power += PlayerPrefs.GetInt("Power", 0);
+            delay /=  1 + PlayerPrefs.GetInt("AttackSpeed", 0);
+            Debug.Log("Player의 현재 파워"+ Power.ToString());
+            Debug.Log("Player의 현재 공속"+ delay.ToString());
+        }
     }
     
     public virtual void Attack()
