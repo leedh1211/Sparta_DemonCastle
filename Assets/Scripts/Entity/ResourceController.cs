@@ -48,9 +48,19 @@ public class ResourceController : MonoBehaviour
 
         timeSinceLastChange = 0f;
         CurrentHealth += change;
-        CurrentHealth = CurrentHealth > MaxHealth ? MaxHealth : CurrentHealth;
-        CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
-        
+
+        float bonusMax = MaxHealth + PlayerPrefs.GetInt("MaxStack", 0) * 5;
+
+        if (CurrentHealth > bonusMax)
+        {
+            CurrentHealth = bonusMax;
+        }
+
+        if (CurrentHealth < 0)
+        {
+            CurrentHealth = 0;
+        }
+
         OnChangeHealth?.Invoke(CurrentHealth, MaxHealth);
 
         if (change < 0)

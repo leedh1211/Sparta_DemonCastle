@@ -21,12 +21,12 @@ namespace Entity
             {
                 this.RemoveHealthChangeEvent(uiManager.ChangeCastleHP);
                 this.AddHealthChangeEvent(uiManager.ChangeCastleHP);
+                uiManager.ChangeCastleHP(CurrentHealth, MaxHealth);
             }
             else
             {
                 Debug.LogWarning("UIManager를 찾을 수 없습니다.");
             }
         }
-        
     }
 }

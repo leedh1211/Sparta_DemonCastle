@@ -251,8 +251,7 @@ public class TheStack : MonoBehaviour
         prevBlockPosition = Vector3.down;
         prevColor = GetRandomColor();
         nextColor = GetRandomColor();
-
-        Spawn_Block();
+        
         Spawn_Block();
     }
 }

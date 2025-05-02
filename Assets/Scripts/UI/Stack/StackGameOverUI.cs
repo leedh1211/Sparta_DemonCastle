@@ -1,3 +1,5 @@
+using System;
+
 namespace UI.Stack
 {
     using TMPro;
@@ -32,9 +34,10 @@ namespace UI.Stack
         // 점수 표시
         public void SetUI(int score)
         {
-            if (score > PlayerPrefs.GetInt("MaxScore", 0))
+            Debug.Log("SetUI");
+            if (score > PlayerPrefs.GetInt("MaxStack", 0))
             {
-                PlayerPrefs.SetInt("MaxScore", score);
+                PlayerPrefs.SetInt("MaxStack", score);
             }
             ScoreText.text = "Score: " + score.ToString();
         }

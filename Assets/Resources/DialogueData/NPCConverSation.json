@@ -55,7 +55,7 @@
         {
           "key": "Intro",
           "value": {
-            "text": "외성을 강화하러 떠나시겠습니까?",
+            "text": "외성을 강화하시겠습니까?",
             "category": "Intro",
             "options": [
               { "text": "예", "category": "Conversation" },
